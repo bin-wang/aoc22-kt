@@ -1,6 +1,8 @@
 fun main() {
     fun getCalories(input: List<String>): List<Int> {
-        return input.split { it == "" }.map { items -> items.sumOf { it.toInt() } }
+        return input
+            .split { it.isBlank() }
+            .map { it.sumOf(Integer::parseInt) }
     }
 
     fun part1(input: List<String>): Int {
