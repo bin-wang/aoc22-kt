@@ -19,20 +19,17 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
  * Split Iterable into chunks by predicate
  */
 fun <T> Iterable<T>.split(predicate: (T) -> Boolean): List<List<T>> {
-    tailrec fun helper(res: MutableList<List<T>>, current: MutableList<T>, iterator: Iterator<T>): List<List<T>> {
+    tailrec fun helper(res: List<List<T>>, current: List<T>, iterator: Iterator<T>): List<List<T>> {
         if (!iterator.hasNext()) {
-            res.add(current.toList())
-            return res.toList()
+            return res.plusElement(current)
         }
-        val x = iterator.next();
-        return if (predicate(x)) {
-            res.add(current.toList())
-            helper(res, mutableListOf(), iterator)
+        val t = iterator.next();
+        return if (predicate(t)) {
+            helper(res.plusElement(current), listOf(), iterator)
         } else {
-            current.add(x)
-            helper(res, current, iterator)
+            helper(res, current.plusElement(t), iterator)
         }
     }
 
-    return helper(mutableListOf(), mutableListOf(), this.iterator())
+    return helper(listOf(), listOf(), this.iterator())
 }
