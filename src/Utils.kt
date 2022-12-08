@@ -35,3 +35,7 @@ fun <T> Iterable<T>.split(predicate: (T) -> Boolean): List<List<T>> {
 
     return helper(listOf(), listOf(), this.iterator())
 }
+
+fun <A, B> Iterable<A>.cartesianProduct(other: Iterable<B>): List<Pair<A, B>> {
+    return flatMap { l -> other.map { l to it } }
+}
